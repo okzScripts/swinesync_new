@@ -1,0 +1,654 @@
+{
+	"info": {
+		"_postman_id": "a0b1e971-5746-48d1-a21d-fd25684fc3df",
+		"name": "WheelOfTickets",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "43555386",
+		"_collection_link": "https://oskarkrantz.postman.co/workspace/Oskar-Krantz's-Workspace~0c713680-3299-467d-802e-c7950fac3980/collection/43555386-a0b1e971-5746-48d1-a21d-fd25684fc3df?action=share&source=collection_link&creator=43555386"
+	},
+	"item": [
+		{
+			"name": "LoginAsAdmin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Is statuscode 200?\", function () {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"Is user an admin?\", function (){",
+							"    pm.expect(responseData).to.eql(\"/admin\")",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"grune@grymt.se\",\n    \"password\": \"hejhej\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/login"
+			},
+			"response": []
+		},
+		{
+			"name": "AddNewAgent",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Check if insertId is present\", function () {",
+							"    pm.expect(responseData).to.have.property(\"insertId\");",
+							"});",
+							"",
+							"pm.environment.set(\"agent_id\", responseData.insertId);",
+							"",
+							"pm.test(\"Is status code 200?\", function (){",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Name\": \"Test-Person\", \n    \"Email\": \"test-email@mailtest.com\", \n    \"SelectedCategories\": [4],\n    \"Role\": \"service_agent\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/users/agent"
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteCatXserviceAgent",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Is status code 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{base_url}}/users/deletecategories/{{agent_id}}"
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteAgent",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Response have statuscode 200\", function (){",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{base_url}}/users/{{agent_id}}"
+			},
+			"response": []
+		},
+		{
+			"name": "LogOut Admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Is statuscode 200?\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Is user logged out?\", function(){",
+							"    pm.expect(pm.response.text()).to.include(\"loggat ut\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{base_url}}/login"
+			},
+			"response": []
+		},
+		{
+			"name": "LoginSuperAdmin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Is Statuscode 200?\", function() {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"Is superadmin logged in?\", function(){",
+							"    pm.expect(responseData).to.eql(\"/super-admin\");",
+							"})",
+							"",
+							"pm.test(\"Is cookie recieved with role?\", function () {",
+							"    pm.cookies.has(\"role\");",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"super_gris@mail.com\",\n    \"password\": \"kung\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/login"
+			},
+			"response": []
+		},
+		{
+			"name": "CreateCompany-BadRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Invadlid email adress, response should be 400 Bad Request\", function(){",
+							"    pm.response.to.have.status(400);",
+							"})",
+							"",
+							"pm.environment.set(\"newCompany_id\",responseData.insertId);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Name\": \"testCompany Inc.\",\n    \"Email\": \"thisisNOTavalidemailadress\",\n    \"Phone\": \"789456123\",\n    \"Description\": \"This is a test-company!\",\n    \"Domain\": \"http://www.companyadress.com\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/companies"
+			},
+			"response": []
+		},
+		{
+			"name": "CreateProduct",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Is statuscode 200?\", function(){",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.environment.set(\"newProduct_id\", responseData.insertId);",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Name\": \"Test_product\", \n    \"Description\": \"This is a test product\",\n    \"Price\": 300000, \n    \"Category\": \"TestCategory\",\n    \"Company\": \"{{newCompany_id}}\",\n    \"active\": \"true\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/products"
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteProduct",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Is statuscode 200?\", function () {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"Reponse contains 'deleted'.\", function(){",
+							"    pm.expect(pm.response.text()).to.include(\"deleted\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{base_url}}/products/{{newProduct_id}}"
+			},
+			"response": []
+		},
+		{
+			"name": "CreateAdmin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Is statuscode 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"Response contains 'funkade'\", function (){",
+							"    pm.expect(responseData.message).to.include(\"funkade\");",
+							"});",
+							"",
+							"pm.environment.set(\"newAdmin_id\", responseData.insertId);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Name\": \"TestAdmin Testsson\",\n    \"Email\": \"testadmin@testmail.com\",\n    \"Password\": \"testpw123\",\n    \"Company\": \"{{newCompany_id}}\",\n    \"Role\": \"admin\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/users/"
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteAdmin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Is statuscode 200\", function(){",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"Does response string have 'deleted'\", function(){",
+							"    pm.expect(pm.response.text().toLowerCase()).to.include(\"deleted\");",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{base_url}}/users/{{newAdmin_id}}"
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteCompany",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"statuscode is 200\", function(){",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response string contains 'deleted'\", function(){",
+							"    pm.expect(pm.response.text().toLowerCase()).to.include(\"deleted\")",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{base_url}}/companies/{{newCompany_id}}"
+			},
+			"response": []
+		},
+		{
+			"name": "LogOut SuperAdmin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Is statuscode 200?\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Is user logged out?\", function(){",
+							"    pm.expect(pm.response.text()).to.include(\"loggat ut\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{base_url}}/login"
+			},
+			"response": []
+		},
+		{
+			"name": "CreateTicket",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Is statuscode 200?\", function() {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"let responseText = pm.response.text();",
+							"",
+							"let match = responseText.match(/\\/customer\\/([^\\/]+)\\/chat/);",
+							"",
+							"if (match && match[1]) {",
+							"    let slug = match[1];",
+							"    pm.environment.set(\"customerSlug\", slug);",
+							"",
+							"    pm.test(\"Slug extracted and saved\", function () {",
+							"        pm.expect(slug).to.not.be.empty;",
+							"    });",
+							"} else {",
+							"    pm.test(\"Slug not found in response\", function () {",
+							"        pm.expect.fail(\"No slug found between /customer/ and /chat\");",
+							"    });",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productId\": 54,\n    \"categoryId\": 4,\n    \"message\": \"Hello, this is the message!\",\n    \"email\": \"testcustomer@gmail.com\",\n    \"description\": \"This is the ticket description\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/tickets"
+			},
+			"response": []
+		},
+		{
+			"name": "LoginAsAdmin 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Is statuscode 200?\", function () {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"Is user an admin?\", function (){",
+							"    pm.expect(responseData).to.eql(\"/admin\")",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"grune@grymt.se\",\n    \"password\": \"hejhej\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/login"
+			},
+			"response": []
+		},
+		{
+			"name": "GetTicket",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Is statuscode 200?\", function(){",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{base_url}}/tickets/{{customerSlug}}"
+			},
+			"response": []
+		},
+		{
+			"name": "LoginAsAgent",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Is statuscode 200?\", function() {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"Is this a service agent logged in?\", function(){",
+							"    pm.expect(pm.response.text()).to.include(\"/customer-service\")",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"tryne@hotmail.com\",\n    \"password\": \"asd123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/login"
+			},
+			"response": []
+		},
+		{
+			"name": "GetUnassignedTickets",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Is statuscode 200?\", function() {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"Is this an object array?\", function () {",
+							"    pm.expect(responseData).to.be.an('array');",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{base_url}}/tickets/unassigned"
+			},
+			"response": []
+		},
+		{
+			"name": "LogOut Agent",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let responseData = pm.response.json();",
+							"",
+							"pm.test(\"Is statuscode 200?\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Is user logged out?\", function(){",
+							"    pm.expect(pm.response.text()).to.include(\"loggat ut\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{base_url}}/login"
+			},
+			"response": []
+		}
+	]
+}

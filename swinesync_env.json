@@ -1,0 +1,57 @@
+{
+	"id": "c1fd0641-f9e7-4e7a-9197-c88947ca7996",
+	"name": "SwineSyncEnv",
+	"values": [
+		{
+			"key": "company_id",
+			"value": "3",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000/api",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "agent_id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "newCompany_id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "newProduct_id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "newAdmin_id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "slug",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "customerSlug",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-04-15T10:58:36.040Z",
+	"_postman_exported_using": "Postman/11.40.2-250409-1302"
+}
