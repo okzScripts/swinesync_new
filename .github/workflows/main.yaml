@@ -30,8 +30,7 @@ jobs:
         run: newman run ./swinesync_postmanCollection.json -e ./swinesync_env.json
 
   gui_tests:
-    runs-on: ubuntu-latest
-    needs: api_tests # Kör endast om api testerna går igenom
+    runs-on: ubuntu-latest 
     steps:
       - uses: actions/checkout@v4
       - name: Setup dotnet
