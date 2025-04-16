@@ -18,8 +18,8 @@ public class Test1
         _playwright = await Playwright.CreateAsync();
         _browser = await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
-            Headless = false,
-            SlowMo = 3000
+            Headless = true,
+            //SlowMo = 3000
         });
         _browserContext = await _browser.NewContextAsync();
         _page = await _browserContext.NewPageAsync();
